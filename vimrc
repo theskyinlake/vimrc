@@ -6,7 +6,7 @@ filetype on         " 侦测文件类型
 syntax on 	    " 语法高亮
 set number          " 设置行号显示
 set cursorline      " 突出显示当前行
-set cursorcolumn    "突出显示当前列
+set cursorcolumn    " 突出显示当前列
 set showmatch       " 显示括号匹配
 set hlsearch        " 搜索高亮
 set ruler	    " 显示标尺
@@ -137,9 +137,11 @@ func SetTitle()
 		call append(line(".")+2, "# mail: theskyinlake@qq.com") 
 		call append(line(".")+3, "# Created Time: ".strftime("%c")) 
 		call append(line(".")+4, "#########################################################################") 
+		call append(line(".")+5, "")
 		call append(line(".")+6, "#!/usr/bin/env python3")
     		call append(line(".")+7, "# -*- coding: utf-8 -*-")
 		call append(line(".")+8, "")
+		call append(line(".")+9, "")
 	endif
 	"新建文件后，自动定位到文件末尾
 	autocmd BufNewFile * normal G
