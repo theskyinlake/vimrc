@@ -9,12 +9,23 @@ set cursorline      " 突出显示当前行
 set cursorcolumn    " 突出显示当前列
 set showmatch       " 显示括号匹配
 set hlsearch        " 搜索高亮
-set ruler	    " 显示标尺
-set laststatus=2    " 总是显示状态栏
-set showcmd         " 显示输入的命令
 set helplang=cn     " 中文帮助
 set confirm         " 在处理未保存或只读文件的时候，弹出确认 
 set iskeyword+=_,$,@,%,#,-  " 带有如下符号的单词不要被换行分割
+
+" 命令行与状态行
+" -----------------------------------------------------------------------
+set laststatus=2                          " 开启状态栏信息
+set ruler	  			  " 显示标尺
+set showcmd         			  " 显示输入的命令
+set cmdheight=1                           " 命令行的高度，默认为1，这里设为2
+" 状态行显示的内容 [包括系统平台、文件类型、坐标、所占比例、时间等]
+set statusline=%{fugitive#statusline()}\ %F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %y%r%m%*%=\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
+
+
+
+
+
 
 "设置粘贴模式
 set paste      
@@ -31,8 +42,6 @@ set mouse=a
 set selection=exclusive
 set selectmode=mouse,key
 
-"让vimrc配置变更立即生效,即保存 .vimrc 时自动重启加载
-autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
 
 """"""""""""""""""""" Vundle
@@ -43,7 +52,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'Valloric/YouCompleteMe'
 
 call vundle#end()            " required
-filetype plugin indent on    " 打开文件类型检测
+filetype plugin indent on    " 打开文件类型检测 不同的文件采用不同的插件和缩进
 """"""""""""""""""""" Vundle
 
 
@@ -89,10 +98,12 @@ match LeaderTab /\t/        " 匹配行首tab
 highlight Whitespace ctermbg=red guibg=red
 au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match Whitespace /\s\+$\ \+/
 
-
-
 let python_highlight_all=1
-
+" 运行Python源文件
+func! RunPython()
+    exec "w"
+    exec "!python3 %"
+endfunc
 
 
 
@@ -163,6 +174,9 @@ func SetTitle()
 	autocmd BufNewFile * normal G
 endfunc 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"让vimrc配置变更立即生效,即保存 .vimrc 时自动重启加载
+autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
 
 
