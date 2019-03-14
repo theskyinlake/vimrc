@@ -12,9 +12,10 @@ set hlsearch        " 搜索高亮
 set ruler	    " 显示标尺
 set laststatus=2    " 总是显示状态栏
 set showcmd         " 显示输入的命令
-set helplang=cn     "
+set helplang=cn     " 中文帮助
 set confirm         " 在处理未保存或只读文件的时候，弹出确认 
- 
+set iskeyword+=_,$,@,%,#,-  " 带有如下符号的单词不要被换行分割
+
 "设置粘贴模式
 set paste      
 set listchars=tab:>-,trail:-
@@ -66,26 +67,40 @@ nnoremap <c-j> :YcmCompleter GoToDefinitionElseDeclaration<CR>     " 跳转到�
 let g:ycm_min_num_of_chars_for_completion=2                 " 从第2个键入字符就开始罗列匹配项
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-
 "python代码缩进PEP8风格
 au BufNewFile,BufRead *.py,*.pyw set tabstop=4          " 设置Tab长度为4空格
 au BufNewFile,BufRead *.py,*.pyw set softtabstop=4      " 设置按BackSpace的时候可以一次删除掉4个空格 
 au BufNewFile,BufRead *.py,*.pyw set shiftwidth=4       " 设置自动缩进长度为4空格
 au BufNewFile,BufRead *.py,*.pyw set textwidth=79 
-au BufNewFile,BufRead *.py,*.pyw set expandtab 
-au BufNewFile,BufRead *.py,*.pyw set autoindent         "继承前一行的缩进方式，适用于多行注释
+au BufNewFile,BufRead *.py,*.pyw set expandtab 		" 使用空格来替换tab
+au BufNewFile,BufRead *.py,*.pyw set smarttab 		" 开启新行时使用智能 tab 缩进
+au BufNewFile,BufRead *.py,*.pyw set autoindent         " 设置自动缩进,继承前一行的缩进方式
+au BufNewFile,BufRead *.py,*.pyw set smartindent        " 设置智能缩进
 au BufNewFile,BufRead *.py,*.pyw set fileformat=unix
 au BufNewFile,BufRead *.py,*.pyw set shiftround 
-"对其他文件类型设置au命令
-au BufNewFile,BufRead *.js, *.html, *.css set tabstop=2
-au BufNewFile,BufRead *.js, *.html, *.css set softtabstop=2
-au BufNewFile,BufRead *.js, *.html, *.css set shiftwidth=2
+au BufNewFile,BufRead *.py,*.pyw set list                     " 显示Tab符，
+au BufNewFile,BufRead *.py,*.pyw set listchars=tab:\|\ ,      " 使用一高亮竖线代替 把符号显示为 |
+
+highlight LeaderTab guifg=#666666   " 设定行首tab为灰色
+match LeaderTab /\t/        " 匹配行首tab
+
 
 "高亮显示行伟不必要的空白字符
 highlight Whitespace ctermbg=red guibg=red
 au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match Whitespace /\s\+$\ \+/
 
+
+
 let python_highlight_all=1
+
+
+
+
+
+
+
+
+
 
 
 """""新文件标题
