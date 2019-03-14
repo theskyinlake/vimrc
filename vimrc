@@ -20,10 +20,8 @@ set ruler	  			  " 显示标尺
 set showcmd         			  " 显示输入的命令
 set cmdheight=1                           " 命令行的高度，默认为1，这里设为2
 " 状态行显示的内容 [包括系统平台、文件类型、坐标、所占比例、时间等]
-set statusline=%{fugitive#statusline()}\ %F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %y%r%m%*%=\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
-
-
-
+"set statusline=%F%m%r%h%w%=\ [ft=%Y]\ %{\"[fenc=\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\"+\":\"\").\"]\"}\ [ff=%{&ff}]\ [asc=%03.3b]\ [hex=%02.2B]\ [pos=%04l,%04v][%p%%]\ [len=%L]
+set statusline=%F%m%r%h%w%=\ [ft=%Y]\ %{\"[fenc=\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\"+\":\"\").\"]\"}\ [pos=%03l,%03v][%p%%]\ [len=%L]
 
 
 
@@ -114,8 +112,7 @@ endfunc
 
 
 
-"""""新文件标题
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "新建.c,.h,.sh,.py文件，自动插入文件头 
 autocmd BufNewFile *.cpp,*.[ch],*.sh,*.py,*.pyw exec ":call SetTitle()" 
 ""定义函数SetTitle，自动插入文件头 
