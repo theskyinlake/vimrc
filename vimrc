@@ -3,15 +3,27 @@
 
 set nocompatible    " 去除vi的一致性
 filetype on         " 侦测文件类型
-syntax on 	    " 语法高亮
+syntax enable  	    " 语法高亮
 set number          " 设置行号显示
 set cursorline      " 突出显示当前行
 set cursorcolumn    " 突出显示当前列
 set showmatch       " 显示括号匹配
+" 匹配括号高亮的时间（单位是十分之一秒） 
+set matchtime=5 
+" 在搜索的时候忽略大小写 
+set ignorecase 
 set hlsearch        " 搜索高亮
+" 在搜索时，输入的词句的逐字符高亮 
+set incsearch 
 set helplang=cn     " 中文帮助
 set confirm         " 在处理未保存或只读文件的时候，弹出确认 
 set iskeyword+=_,$,@,%,#,-  " 带有如下符号的单词不要被换行分割
+set  nobackup nowritebackup  "禁用备份
+set noswapfile 			"禁用交换文件
+" 使回格键（backspace）正常处理indent, eol, start等 
+set backspace=indent,eol,start
+" 允许backspace和光标键跨越行边界 
+set whichwrap+=<,>,b,s,[,]
 
 " 命令行与状态行
 " -----------------------------------------------------------------------
@@ -21,7 +33,7 @@ set showcmd         			  " 显示输入的命令
 set cmdheight=1                           " 命令行的高度，默认为1，这里设为2
 " 状态行显示的内容 [包括系统平台、文件类型、坐标、所占比例、时间等]
 "set statusline=%F%m%r%h%w%=\ [ft=%Y]\ %{\"[fenc=\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\"+\":\"\").\"]\"}\ [ff=%{&ff}]\ [asc=%03.3b]\ [hex=%02.2B]\ [pos=%04l,%04v][%p%%]\ [len=%L]
-set statusline=%F%m%r%h%w%=\ [ft=%Y]\ %{\"[fenc=\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\"+\":\"\").\"]\"}\ [pos=%l,%v][%p%%]\ [len=%L]
+set statusline=%F%m%r%h%w%=\ %Y\ %{\"\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\"+\":\"\").\"\"}\ %l,%v\ %p%%,%L
 
 
 
@@ -78,12 +90,12 @@ let g:ycm_min_num_of_chars_for_completion=2                 " 从第2个键入�
 au BufNewFile,BufRead *.py,*.pyw set tabstop=4          " 设置Tab长度为4空格
 au BufNewFile,BufRead *.py,*.pyw set softtabstop=4      " 设置按BackSpace的时候可以一次删除掉4个空格 
 au BufNewFile,BufRead *.py,*.pyw set shiftwidth=4       " 设置自动缩进长度为4空格
-au BufNewFile,BufRead *.py,*.pyw set textwidth=79 
+au BufNewFile,BufRead *.py,*.pyw set textwidth=79 	" 行最大宽度
 au BufNewFile,BufRead *.py,*.pyw set expandtab 		" 使用空格来替换tab
 au BufNewFile,BufRead *.py,*.pyw set smarttab 		" 开启新行时使用智能 tab 缩进
 au BufNewFile,BufRead *.py,*.pyw set autoindent         " 设置自动缩进,继承前一行的缩进方式
 au BufNewFile,BufRead *.py,*.pyw set smartindent        " 设置智能缩进
-au BufNewFile,BufRead *.py,*.pyw set fileformat=unix
+au BufNewFile,BufRead *.py,*.pyw set fileformat=unix	" 保存文件格式
 au BufNewFile,BufRead *.py,*.pyw set shiftround 
 au BufNewFile,BufRead *.py,*.pyw set list                     " 显示Tab符，
 au BufNewFile,BufRead *.py,*.pyw set listchars=tab:\|\ ,      " 使用一高亮竖线代替 把符号显示为 |
@@ -97,11 +109,6 @@ highlight Whitespace ctermbg=red guibg=red
 au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match Whitespace /\s\+$\ \+/
 
 let python_highlight_all=1
-" 运行Python源文件
-func! RunPython()
-    exec "w"
-    exec "!python3 %"
-endfunc
 
 
 
@@ -112,65 +119,49 @@ endfunc
 
 
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"新建.c,.h,.sh,.py文件，自动插入文件头 
-autocmd BufNewFile *.cpp,*.[ch],*.sh,*.py,*.pyw exec ":call SetTitle()" 
+""""""""""""""""""""""""""""""""""""新文件标题"""""""""""""""""""""""""""""""""""""""""""""""
+"新建.c,.h,.sh,.java文件，自动插入文件头 
+autocmd BufNewFile *.py,*.cpp,*.[ch],*.sh,*.java exec ":call SetTitle()" 
 ""定义函数SetTitle，自动插入文件头 
 func SetTitle() 
-	"如果文件类型为.sh文件 
-	if &filetype == 'sh' 
-		call setline(1, "##########################################################################") 
-		call append(line("."), "# File Name: ".expand("%")) 
-		call append(line(".")+1, "# Author: theskyinlake") 
-		call append(line(".")+2, "# mail: theskyinlake@qq.com") 
-		call append(line(".")+3, "# Created Time: ".strftime("%c")) 
-		call append(line(".")+4, "#########################################################################") 
-		call append(line(".")+5, "#!/bin/zsh")
-		call append(line(".")+6, "PATH=/home/edison/bin:/home/edison/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/work/tools/gcc-3.4.5-glibc-2.3.6/bin")
-		call append(line(".")+7, "export PATH")
-		call append(line(".")+8, "")	
-	endif
-	if &filetype == 'cpp'
-		call setline(1, "/*************************************************************************") 
-		call append(line("."), "	> File Name: ".expand("%")) 
-		call append(line(".")+1, "	> Author: theskyinlake") 
-		call append(line(".")+2, "	> Mail: theskyinlake@qq.com ") 
-		call append(line(".")+3, "	> Created Time: ".strftime("%c")) 
-		call append(line(".")+4, " ************************************************************************/") 
-		call append(line(".")+5, "")
-		call append(line(".")+6, "#include<iostream>")
-    		call append(line(".")+7, "using namespace std;")
-		call append(line(".")+8, "")
-	endif
-	if &filetype == 'c'
-		call setline(1, "/*************************************************************************") 
-		call append(line("."), "	> File Name: ".expand("%")) 
-		call append(line(".")+1, "	> Author: theskyinlake") 
-		call append(line(".")+2, "	> Mail: theskyinlake@qq.com ") 
-		call append(line(".")+3, "	> Created Time: ".strftime("%c")) 
-		call append(line(".")+4, " ************************************************************************/") 
-		call append(line(".")+5, "")
-		call append(line(".")+6, "#include<stdio.h>")
-		call append(line(".")+7, "")
-	endif
-	if &filetype == 'python'
-		call setline(1, "#########################################################################") 
-		call append(line("."), "# File Name: ".expand("%")) 
-		call append(line(".")+1, "# Author: theskyinlake") 
-		call append(line(".")+2, "# mail: theskyinlake@qq.com") 
-		call append(line(".")+3, "# Created Time: ".strftime("%c")) 
-		call append(line(".")+4, "#########################################################################") 
-		call append(line(".")+5, "")
-		call append(line(".")+6, "#!/usr/bin/env python3")
-    		call append(line(".")+7, "# -*- coding: utf-8 -*-")
-		call append(line(".")+8, "")
-		call append(line(".")+9, "import ")
-		call append(line(".")+10, "")
-	endif
-	"新建文件后，自动定位到文件末尾
-	autocmd BufNewFile * normal G
+    "如果文件类型为.sh文件 
+    if &filetype == 'sh' 
+        call setline(1,"\#########################################################################") 
+        call append(line("."), "\# File Name: ".expand("%"))         
+        call append(line(".")+1, "\# Created Time: ".strftime("%c")) 
+        call append(line(".")+2, "\#########################################################################") 
+        call append(line(".")+3, "\#!/bin/bash") 
+        call append(line(".")+4, "") 
+    elseif &filetype == 'python'
+        call setline(1,"\#########################################################################") 
+        call append(line("."), "\# File Name: ".expand("%"))     
+        call append(line(".")+1, "\# Created Time: ".strftime("%c")) 
+        call append(line(".")+2, "\#########################################################################") 
+        call append(line(".")+3, "\#!/usr/bin/env python3") 
+        call append(line(".")+4, "\#! -*- coding: utf-8 -*-")
+	call append(line(".")+5, "")
+	call append(line(".")+6, "")
+    else 
+        call setline(1, "/*************************************************************************") 
+        call append(line("."), "    > File Name: ".expand("%"))        
+        call append(line(".")+1, "  > Created Time: ".strftime("%c")) 
+        call append(line(".")+2, " ************************************************************************/") 
+        call append(line(".")+3, "")
+    endif
+    if &filetype == 'cpp'
+        call append(line(".")+4, "#include<iostream>")
+        call append(line(".")+5, "using namespace std;")
+        call append(line(".")+6, "")
+    endif
+    if &filetype == 'c'
+        call append(line(".")+4, "#include<stdio.h>")
+        call append(line(".")+5, "")
+    endif
+    "新建文件后，自动定位到文件末尾
+    autocmd BufNewFile * normal G
 endfunc 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "让vimrc配置变更立即生效,即保存 .vimrc 时自动重启加载
 autocmd BufWritePost $MYVIMRC source $MYVIMRC
