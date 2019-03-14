@@ -3,12 +3,13 @@
 
 set nocompatible    " 去除vi的一致性
 filetype on         " 侦测文件类型
-syntax on 	        " 语法高亮
+syntax on 	    " 语法高亮
 set number          " 设置行号显示
 set cursorline      " 突出显示当前行
+set cursorcolumn    "突出显示当前列
 set showmatch       " 显示括号匹配
 set hlsearch        " 搜索高亮
-set ruler	          " 显示标尺
+set ruler	    " 显示标尺
 set laststatus=2    " 总是显示状态栏
 set showcmd         " 显示输入的命令
 set helplang=cn     "
@@ -41,7 +42,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'Valloric/YouCompleteMe'
 
 call vundle#end()            " required
-filetype plugin indent on    " required
+filetype plugin indent on    " 打开文件类型检测
 """"""""""""""""""""" Vundle
 
 
@@ -90,7 +91,7 @@ let python_highlight_all=1
 """""新文件标题
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "新建.c,.h,.sh,.java文件，自动插入文件头 
-autocmd BufNewFile *.cpp,*.[ch],*.sh,*.py exec ":call SetTitle()" 
+autocmd BufNewFile *.cpp,*.[ch],*.sh,*.py,*.pyw exec ":call SetTitle()" 
 ""定义函数SetTitle，自动插入文件头 
 func SetTitle() 
 	"如果文件类型为.sh文件 
@@ -104,8 +105,9 @@ func SetTitle()
 		call append(line(".")+5, "#!/bin/zsh")
 		call append(line(".")+6, "PATH=/home/edison/bin:/home/edison/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/work/tools/gcc-3.4.5-glibc-2.3.6/bin")
 		call append(line(".")+7, "export PATH")
-		call append(line(".")+8, "")
-	else 
+		call append(line(".")+8, "")	
+	endif
+	if &filetype == 'cpp'
 		call setline(1, "/*************************************************************************") 
 		call append(line("."), "	> File Name: ".expand("%")) 
 		call append(line(".")+1, "	> Author: theskyinlake") 
@@ -113,19 +115,30 @@ func SetTitle()
 		call append(line(".")+3, "	> Created Time: ".strftime("%c")) 
 		call append(line(".")+4, " ************************************************************************/") 
 		call append(line(".")+5, "")
-	endif
-	if &filetype == 'cpp'
 		call append(line(".")+6, "#include<iostream>")
-    call append(line(".")+7, "using namespace std;")
+    		call append(line(".")+7, "using namespace std;")
 		call append(line(".")+8, "")
 	endif
 	if &filetype == 'c'
+		call setline(1, "/*************************************************************************") 
+		call append(line("."), "	> File Name: ".expand("%")) 
+		call append(line(".")+1, "	> Author: theskyinlake") 
+		call append(line(".")+2, "	> Mail: theskyinlake@qq.com ") 
+		call append(line(".")+3, "	> Created Time: ".strftime("%c")) 
+		call append(line(".")+4, " ************************************************************************/") 
+		call append(line(".")+5, "")
 		call append(line(".")+6, "#include<stdio.h>")
 		call append(line(".")+7, "")
 	endif
-	if &filetype == 'py'
+	if &filetype == 'python'
+		call setline(1, "##########################################################################") 
+		call append(line("."), "# File Name: ".expand("%")) 
+		call append(line(".")+1, "# Author: theskyinlake") 
+		call append(line(".")+2, "# mail: theskyinlake@qq.com") 
+		call append(line(".")+3, "# Created Time: ".strftime("%c")) 
+		call append(line(".")+4, "#########################################################################") 
 		call append(line(".")+6, "#!/usr/bin/env python3")
-    call append(line(".")+7, "# -*- coding: utf-8 -*-")
+    		call append(line(".")+7, "# -*- coding: utf-8 -*-")
 		call append(line(".")+8, "")
 	endif
 	"新建文件后，自动定位到文件末尾
