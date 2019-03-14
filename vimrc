@@ -90,7 +90,7 @@ let python_highlight_all=1
 
 """""新文件标题
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"新建.c,.h,.sh,.java文件，自动插入文件头 
+"新建.c,.h,.sh,.py文件，自动插入文件头 
 autocmd BufNewFile *.cpp,*.[ch],*.sh,*.py,*.pyw exec ":call SetTitle()" 
 ""定义函数SetTitle，自动插入文件头 
 func SetTitle() 
@@ -131,7 +131,7 @@ func SetTitle()
 		call append(line(".")+7, "")
 	endif
 	if &filetype == 'python'
-		call setline(1, "##########################################################################") 
+		call setline(1, "#########################################################################") 
 		call append(line("."), "# File Name: ".expand("%")) 
 		call append(line(".")+1, "# Author: theskyinlake") 
 		call append(line(".")+2, "# mail: theskyinlake@qq.com") 
@@ -141,7 +141,8 @@ func SetTitle()
 		call append(line(".")+6, "#!/usr/bin/env python3")
     		call append(line(".")+7, "# -*- coding: utf-8 -*-")
 		call append(line(".")+8, "")
-		call append(line(".")+9, "")
+		call append(line(".")+9, "import ")
+		call append(line(".")+10, "")
 	endif
 	"新建文件后，自动定位到文件末尾
 	autocmd BufNewFile * normal G
