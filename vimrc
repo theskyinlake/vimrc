@@ -5,8 +5,8 @@ set nocompatible    " 去除vi的一致性
 filetype on         " 侦测文件类型
 syntax enable  	    " 语法高亮
 set number          " 设置行号显示
-set cursorline      " 突出显示当前行
-set cursorcolumn    " 突出显示当前列
+"set cursorline      " 突出显示当前行
+"set cursorcolumn    " 突出显示当前列
 set showmatch       " 显示括号匹配
 " 匹配括号高亮的时间（单位是十分之一秒） 
 set matchtime=5 
@@ -60,6 +60,9 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()        " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'davidhalter/jedi-vim'
+
+
 
 call vundle#end()            " required
 filetype plugin indent on    " 打开文件类型检测 不同的文件采用不同的插件和缩进
@@ -85,6 +88,11 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"      " 回车即选中当
 nnoremap <c-j> :YcmCompleter GoToDefinitionElseDeclaration<CR>     " 跳转到定义处
 let g:ycm_min_num_of_chars_for_completion=2                 " 从第2个键入字符就开始罗列匹配项
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:jedi#popup_on_dot = 0
+autocmd FileType python setlocal completeopt-=preview
+
+
+
 
 "python代码缩进PEP8风格
 au BufNewFile,BufRead *.py,*.pyw set tabstop=4          " 设置Tab长度为4空格
