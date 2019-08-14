@@ -8,29 +8,24 @@ set number          " 设置行号显示
 "set cursorline      " 突出显示当前行
 "set cursorcolumn    " 突出显示当前列
 set showmatch       " 显示括号匹配
-" 匹配括号高亮的时间（单位是十分之一秒） 
-set matchtime=5 
-" 在搜索的时候忽略大小写 
-set ignorecase 
+set matchtime=5 	" 匹配括号高亮的时间（单位是十分之一秒） 
+set ignorecase  	" 在搜索的时候忽略大小写 
 set hlsearch        " 搜索高亮
-" 在搜索时，输入的词句的逐字符高亮 
-set incsearch 
+set incsearch 	" 在搜索时，输入的词句的逐字符高亮 
 set helplang=cn     " 中文帮助
 set confirm         " 在处理未保存或只读文件的时候，弹出确认 
 set iskeyword+=_,$,@,%,#,-  " 带有如下符号的单词不要被换行分割
 set  nobackup nowritebackup  "禁用备份
 set noswapfile 			"禁用交换文件
-" 使回格键（backspace）正常处理indent, eol, start等 
-set backspace=indent,eol,start
-" 允许backspace和光标键跨越行边界 
-set whichwrap+=<,>,b,s,[,]
+set backspace=indent,eol,start	" 使回格键（backspace）正常处理indent, eol, start等 
+set whichwrap+=<,>,b,s,[,]	" 允许backspace和光标键跨越行边界 
 
 " 命令行与状态行
 " -----------------------------------------------------------------------
-set laststatus=2                          " 开启状态栏信息
-set ruler	  			  " 显示标尺
-set showcmd         			  " 显示输入的命令
-set cmdheight=1                           " 命令行的高度，默认为1，这里设为2
+"set laststatus=2                         " 开启状态栏信息
+"set ruler	  			  " 显示标尺
+"set showcmd         			  " 显示输入的命令
+"set cmdheight=1                           " 命令行的高度，默认为1，这里设为2
 " 状态行显示的内容 [包括系统平台、文件类型、坐标、所占比例、时间等]
 "set statusline=%F%m%r%h%w%=\ [ft=%Y]\ %{\"[fenc=\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\"+\":\"\").\"]\"}\ [ff=%{&ff}]\ [asc=%03.3b]\ [hex=%02.2B]\ [pos=%04l,%04v][%p%%]\ [len=%L]
 set statusline=%F%m%r%h%w%=\ %Y\ %{\"\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\"+\":\"\").\"\"}\ %l,%v\ %p%%,%L
@@ -56,39 +51,39 @@ set selectmode=mouse,key
 
 """"""""""""""""""""" Vundle
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()        " let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'davidhalter/jedi-vim'
+"set rtp+=~/.vim/bundle/Vundle.vim
+"call vundle#begin()        " let Vundle manage Vundle, required
+"Plugin 'VundleVim/Vundle.vim'
+"Plugin 'Valloric/YouCompleteMe'
+"Plugin 'davidhalter/jedi-vim'
 
 
 
-call vundle#end()            " required
+"call vundle#end()            " required
 filetype plugin indent on    " 打开文件类型检测 不同的文件采用不同的插件和缩进
 """"""""""""""""""""" Vundle
 
 
 """""""""""""""""""""""""""""""YouCompleteMe:语句补全插件""""""""""""""""""""""""""
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif     "离开插入模式后自动关闭预览窗口
-let g:ycm_collect_identifiers_from_tags_files = 1           " 开启YCM基于标签引擎
-let g:ycm_collect_identifiers_from_comments_and_strings = 1 " 注释与字符串中的内容也用于补全
-let g:syntastic_ignore_files=[".*\.py$"]
-let g:ycm_seed_identifiers_with_syntax = 1                  " 语法关键字补全
-let g:ycm_complete_in_comments = 1
-let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'     "配置全局路径
-let g:ycm_confirm_extra_conf = 0                            " 关闭加载.ycm_extra_conf.py提示
-let g:ycm_key_list_select_completion = ['<c-n>', '<Down>']  " 映射按键,没有这个会拦截掉tab, 导致其他插件的tab不能用
-let g:ycm_key_list_previous_completion = ['<c-p>', '<Up>']
-let g:ycm_complete_in_comments = 1                          " 在注释输入中也能补全
-let g:ycm_complete_in_strings = 1                           " 在字符串输入中也能补全
-let g:ycm_collect_identifiers_from_comments_and_strings = 1 " 注释和字符串中的文字也会被收入补全
-let g:ycm_show_diagnostics_ui = 0                           " 禁用语法检查
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"      " 回车即选中当前项
-nnoremap <c-j> :YcmCompleter GoToDefinitionElseDeclaration<CR>     " 跳转到定义处
-let g:ycm_min_num_of_chars_for_completion=2                 " 从第2个键入字符就开始罗列匹配项
+"autocmd InsertLeave * if pumvisible() == 0|pclose|endif     "离开插入模式后自动关闭预览窗口
+"let g:ycm_collect_identifiers_from_tags_files = 1           " 开启YCM基于标签引擎
+"let g:ycm_collect_identifiers_from_comments_and_strings = 1 " 注释与字符串中的内容也用于补全
+"let g:syntastic_ignore_files=[".*\.py$"]
+"let g:ycm_seed_identifiers_with_syntax = 1                  " 语法关键字补全
+"let g:ycm_complete_in_comments = 1
+"let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'     "配置全局路径
+"let g:ycm_confirm_extra_conf = 0                            " 关闭加载.ycm_extra_conf.py提示
+"let g:ycm_key_list_select_completion = ['<c-n>', '<Down>']  " 映射按键,没有这个会拦截掉tab, 导致其他插件的tab不能用
+"let g:ycm_key_list_previous_completion = ['<c-p>', '<Up>']
+"let g:ycm_complete_in_comments = 1                          " 在注释输入中也能补全
+"let g:ycm_complete_in_strings = 1                           " 在字符串输入中也能补全
+"let g:ycm_collect_identifiers_from_comments_and_strings = 1 " 注释和字符串中的文字也会被收入补全
+"let g:ycm_show_diagnostics_ui = 0                           " 禁用语法检查
+"inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"      " 回车即选中当前项
+"nnoremap <c-j> :YcmCompleter GoToDefinitionElseDeclaration<CR>     " 跳转到定义处
+"let g:ycm_min_num_of_chars_for_completion=2                 " 从第2个键入字符就开始罗列匹配项
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:jedi#popup_on_dot = 0
+"let g:jedi#popup_on_dot = 0
 autocmd FileType python setlocal completeopt-=preview
 
 
@@ -172,7 +167,7 @@ endfunc
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "让vimrc配置变更立即生效,即保存 .vimrc 时自动重启加载
-autocmd BufWritePost $MYVIMRC source $MYVIMRC
+"autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
 
 
